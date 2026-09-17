@@ -1,0 +1,22 @@
+unique_name: Cashflow Type
+object_type: dimension
+label: Cashflow Type
+hierarchies:
+  - unique_name: Cashflow Type Hierarchy
+    label: Cashflow Type Hierarchy
+    levels:
+      - unique_name: Cashflow Type Level
+level_attributes:
+  - unique_name: Cashflow Type Level
+    label: Cashflow Type Level
+    contains_unique_names: false
+    custom_empty_member:
+      name: <<unknown member>>
+      key:
+        - <<unknown member>>
+    dataset: FXTest_Cashflow_Type
+    is_unique_key: false
+    key_columns:
+      - cashflow_type
+    name_column: cashflow_type
+type: standard
