@@ -1,7 +1,6 @@
 unique_name: 2Measures
 object_type: model
 label: 2Measures
-dimensions: []
 metrics:
   - unique_name: m_FXTest_Amount
   - unique_name: m_FXTest_NonLinearMetric_Book

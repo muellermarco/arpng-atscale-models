@@ -1,5 +1,5 @@
 version: 1.9
-unique_name: AtScaleModels
+unique_name: AtScaleModelsDeployError
 object_type: catalog
 label: AtScaleModels
 aggressive_agg_promotion: false
