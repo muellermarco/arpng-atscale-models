@@ -4,6 +4,7 @@ label: Currency Type
 hierarchies:
   - unique_name: Currency Type Hierarchy
     label: Currency Type Hierarchy
+    filter_empty: 'no'
     levels:
       - unique_name: Currency Type Level
 level_attributes:

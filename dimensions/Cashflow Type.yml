@@ -4,6 +4,7 @@ label: Cashflow Type
 hierarchies:
   - unique_name: Cashflow Type Hierarchy
     label: Cashflow Type Hierarchy
+    filter_empty: 'no'
     levels:
       - unique_name: Cashflow Type Level
 level_attributes:

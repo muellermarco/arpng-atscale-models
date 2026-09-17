@@ -1,6 +1,6 @@
-unique_name: 2Measures
+unique_name: Measures
 object_type: model
-label: 2Measures
+label: Measures
 metrics:
   - unique_name: m_FXTest_Amount
   - unique_name: m_FXTest_NonLinearMetric_Book
@@ -37,3 +37,11 @@ relationships:
     to:
       dimension: Book
       level: Book Level
+  - unique_name: FXTest_Amount_cashflow_type_to_Cashflow Type_Cashflow Type Level
+    from:
+      dataset: FXTest_Amount
+      join_columns:
+        - cashflow_type
+    to:
+      dimension: Cashflow Type
+      level: Cashflow Type Level
