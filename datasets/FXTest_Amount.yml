@@ -1,0 +1,366 @@
+unique_name: FXTest_Amount
+object_type: dataset
+label: FXTest_Amount
+columns:
+  - name: FilterType
+    data_type: string
+  - name: CurrencyType
+    data_type: string
+  - name: DiscountingType
+    data_type: string
+  - name: REPORTING_DAY
+    data_type: long
+  - name: deal
+    data_type: long
+  - name: delivery_period
+    data_type: long
+  - name: payment_date
+    data_type: long
+  - name: cashflow_type
+    data_type: string
+  - name: BOOK
+    data_type: string
+  - name: cashflow_currency
+    data_type: string
+  - name: AMOUNT
+    data_type: double
+  - name: CurrentReportingDate
+    data_type: long
+  - name: IsCurrentReportingDate
+    data_type: int
+connection_id: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+sql: >-
+  with currentday AS (
+
+  select max(cast(date_format(reporting_date, 'yyyyMMdd') as bigint)) as
+  CurrentReportingDate from
+  dna_snbx_arp.arp_next_gen_atscale_poc_gold.reporting_date_fxtest
+
+  )
+
+  select *, case when currentday.CurrentReportingDate = REPORTING_DAY then 1
+  else 0 end as IsCurrentReportingDate from (
+
+  select 'Unfiltered' as FilterType, 'Cashflow Currency' as CurrencyType,
+    'Discounted+Compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_cc,0) + coalesce(comp_nv_cc,0) AS AMOUNT
+  from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+
+  Where raw = 1
+
+  and coalesce(disc_nv_cc,comp_nv_cc) is not null
+
+
+  union all
+
+    select 'Unfiltered' as FilterType, 'Book Reference Currency' as CurrencyType,
+    'Discounted+Compounded' as DiscountingType,  
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_brc,0) + coalesce(comp_nv_brc,0) AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and coalesce(disc_nv_brc,comp_nv_brc) is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Hub Reference Currency' as CurrencyType,
+    'Discounted+Compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_hrc,0) + coalesce(comp_nv_hrc,0) AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and coalesce(disc_nv_hrc,comp_nv_hrc) is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Entity Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_erc,0) + coalesce(comp_nv_erc,0) AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and coalesce(disc_nv_erc,comp_nv_erc) is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Global Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_grc,0) + coalesce(comp_nv_grc,0) AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest 
+    where raw = 1
+    and coalesce(disc_nv_grc,comp_nv_grc) is not null  
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Cashflow Currency' as CurrencyType,
+    'Discounted+Compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_cc,0) + coalesce(comp_nv_cc,0) AS AMOUNT 
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_cc = 1
+    and coalesce(disc_nv_cc,comp_nv_cc) is not null
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Book Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_brc,0) + coalesce(comp_nv_brc,0) AS AMOUNT 
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and coalesce(disc_nv_brc,comp_nv_brc) is not null  
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Hub Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_hrc,0) + coalesce(comp_nv_hrc,0) AS AMOUNT  
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and coalesce(disc_nv_hrc,comp_nv_hrc) is not null    
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Entity Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_erc,0) + coalesce(comp_nv_erc,0) AS AMOUNT  
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and coalesce(disc_nv_erc,comp_nv_erc) is not null  
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Global Reference Currency' as
+    CurrencyType, 'Discounted+Compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    coalesce(disc_nv_grc,0) + coalesce(comp_nv_grc,0) AS AMOUNT  
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and coalesce(disc_nv_grc,comp_nv_grc) is not null    
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Cashflow Currency' as CurrencyType,
+    'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_cc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and nv_cc is not null    
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Book Reference Currency' as CurrencyType,
+    'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_brc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and nv_brc is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Hub Reference Currency' as CurrencyType,
+    'Neither discounted nor compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_hrc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and nv_hrc is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Entity Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_erc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and nv_erc is not null
+
+    union all
+
+    select 'Unfiltered' as FilterType, 'Global Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_grc AS AMOUNT  
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where raw = 1
+    and nv_grc is not null
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Cashflow Currency' as CurrencyType,
+    'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_cc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_cc = 1
+    and nv_cc is not null  
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Book Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_brc AS AMOUNT  
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and nv_brc is not null 
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Hub Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType,
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_hrc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and nv_hrc is not null 
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Entity Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_erc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and nv_erc is not null 
+
+    union all
+
+    select 'MgmtViewFiltered' as FilterType, 'Global Reference Currency' as
+    CurrencyType, 'Neither discounted nor compounded' as DiscountingType, 
+    REPORTING_DAY,
+    deal,
+    delivery_period,
+    payment_date,
+    cashflow_type,
+    BOOK,
+    cashflow_currency,
+    nv_grc AS AMOUNT
+    from dna_snbx_arp.arp_next_gen_atscale_poc_gold.fact_finance_fxtest
+    where mgmt_filtered_rc = 1
+    and nv_grc is not null 
+  )
+
+  cross join currentday

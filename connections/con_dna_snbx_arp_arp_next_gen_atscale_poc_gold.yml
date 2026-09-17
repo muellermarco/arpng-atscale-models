@@ -1,0 +1,6 @@
+unique_name: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+object_type: connection
+label: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+as_connection: ARPSandbox
+database: dna_snbx_arp
+schema: arp_next_gen_atscale_poc_gold

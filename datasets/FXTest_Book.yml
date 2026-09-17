@@ -1,0 +1,22 @@
+unique_name: FXTest_Book
+object_type: dataset
+label: FXTest_Book
+columns:
+  - name: book
+    data_type: string
+  - name: book_reference_currency
+    data_type: string
+  - name: entity_reference_currency
+    data_type: string
+  - name: hub_reference_currency
+    data_type: string
+  - name: global_reference_currency
+    data_type: string
+  - name: Division
+    data_type: string
+  - name: BusinessGroup
+    data_type: string
+connection_id: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+sql: >-
+  select *, book as Division, book as BusinessGroup from
+  dna_snbx_arp.arp_next_gen_atscale_poc_gold.book_fxtest

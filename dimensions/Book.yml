@@ -1,0 +1,71 @@
+unique_name: Book
+object_type: dimension
+label: Book
+hierarchies:
+  - unique_name: Book Hierarchy
+    label: Book Hierarchy
+    filter_empty: 'no'
+    levels:
+      - unique_name: Division
+      - unique_name: Business Group
+      - unique_name: Book Level
+        secondary_attributes:
+          - unique_name: Book Reference Currency
+            label: Book Reference Currency
+            contains_unique_names: false
+            dataset: FXTest_Book
+            is_unique_key: false
+            key_columns:
+              - book_reference_currency
+            name_column: book_reference_currency
+          - unique_name: Global Reference Currency
+            label: Global Reference Currency
+            contains_unique_names: false
+            dataset: FXTest_Book
+            is_unique_key: false
+            key_columns:
+              - global_reference_currency
+            name_column: global_reference_currency
+          - unique_name: Hub Reference Currency
+            label: Hub Reference Currency
+            contains_unique_names: false
+            dataset: FXTest_Book
+            is_unique_key: false
+            key_columns:
+              - hub_reference_currency
+            name_column: hub_reference_currency
+          - unique_name: Entîty Reference Currency
+            label: Entîty Reference Currency
+            contains_unique_names: false
+            dataset: FXTest_Book
+            is_unique_key: false
+            key_columns:
+              - entity_reference_currency
+            name_column: entity_reference_currency
+level_attributes:
+  - unique_name: Book Level
+    label: Book Level
+    contains_unique_names: false
+    dataset: FXTest_Book
+    is_unique_key: false
+    key_columns:
+      - book
+    name_column: book
+  - unique_name: Division
+    label: Division
+    contains_unique_names: false
+    dataset: FXTest_Book
+    is_unique_key: false
+    key_columns:
+      - Division
+    name_column: Division
+  - unique_name: Business Group
+    label: Business Group
+    contains_unique_names: false
+    dataset: FXTest_Book
+    is_unique_key: false
+    key_columns:
+      - BusinessGroup
+      - Division
+    name_column: BusinessGroup
+type: standard

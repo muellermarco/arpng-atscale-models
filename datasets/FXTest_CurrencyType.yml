@@ -1,0 +1,8 @@
+unique_name: FXTest_CurrencyType
+object_type: dataset
+label: FXTest_CurrencyType
+columns:
+  - name: currency_type
+    data_type: string
+connection_id: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+table: currency_type_fxtest

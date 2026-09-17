@@ -1,0 +1,40 @@
+unique_name: FXTest_NonLinearMetric
+object_type: dataset
+label: FXTest_NonLinearMetric
+columns:
+  - name: Division
+    data_type: string
+  - name: BusinessGroup
+    data_type: string
+  - name: Book
+    data_type: string
+  - name: book_measure
+    data_type: int
+  - name: business_group_measure
+    data_type: int
+  - name: division_measure
+    data_type: int
+  - name: ReportingDay
+    data_type: long
+  - name: CurrencyType
+    data_type: string
+connection_id: con_dna_snbx_arp_arp_next_gen_atscale_poc_gold
+sql: >
+  select 'Book Reference Currency' as CurrencyType, cast(20260629 as long) as
+  ReportingDay, book as Division, book as BusinessGroup, book as Book, 100 as
+  book_measure, null as business_group_measure, null as division_measure from
+  dna_snbx_arp.arp_next_gen_atscale_poc_gold.book_fxtest
+
+  union all
+
+  select 'Book Reference Currency' as CurrencyType, 20260629 as ReportingDay,
+  book as Division, book as BusinessGroup, book as Book, null as book_measure,
+  200 as business_group_measure, null as division_measure from
+  dna_snbx_arp.arp_next_gen_atscale_poc_gold.book_fxtest
+
+  union all
+
+  select 'Book Reference Currency' as CurrencyType, 20260629 as ReportingDay,
+  book as Division, book as BusinessGroup, book as Book, null as book_measure,
+  null as business_group_measure, 300 as division_measure from
+  dna_snbx_arp.arp_next_gen_atscale_poc_gold.book_fxtest

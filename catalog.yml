@@ -1,0 +1,6 @@
+version: 1.9
+unique_name: AtScaleModels
+object_type: catalog
+label: AtScaleModels
+aggressive_agg_promotion: false
+build_speculative_aggs: true

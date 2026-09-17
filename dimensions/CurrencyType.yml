@@ -1,0 +1,18 @@
+unique_name: CurrencyType
+object_type: dimension
+label: Currency Type
+hierarchies:
+  - unique_name: Currency Type Hierarchy
+    label: Currency Type Hierarchy
+    levels:
+      - unique_name: Currency Type Level
+level_attributes:
+  - unique_name: Currency Type Level
+    label: Currency Type Level
+    contains_unique_names: false
+    dataset: FXTest_CurrencyType
+    is_unique_key: false
+    key_columns:
+      - currency_type
+    name_column: currency_type
+type: standard

@@ -1,0 +1,40 @@
+unique_name: 2Measures
+object_type: model
+label: 2Measures
+dimensions: []
+metrics:
+  - unique_name: m_FXTest_Amount
+  - unique_name: m_FXTest_NonLinearMetric_Book
+relationships:
+  - unique_name: FXTest_Amount_BOOK_to_Book_Book Level
+    from:
+      dataset: FXTest_Amount
+      join_columns:
+        - BOOK
+    to:
+      dimension: Book
+      level: Book Level
+  - unique_name: FXTest_Amount_CurrencyType_to_CurrencyType_Currency Type Level
+    from:
+      dataset: FXTest_Amount
+      join_columns:
+        - CurrencyType
+    to:
+      dimension: CurrencyType
+      level: Currency Type Level
+  - unique_name: FXTest_NonLinearMetric_CurrencyType_to_CurrencyType_Currency Type Level
+    from:
+      dataset: FXTest_NonLinearMetric
+      join_columns:
+        - CurrencyType
+    to:
+      dimension: CurrencyType
+      level: Currency Type Level
+  - unique_name: FXTest_NonLinearMetric_Book_to_Book_Book Level
+    from:
+      dataset: FXTest_NonLinearMetric
+      join_columns:
+        - Book
+    to:
+      dimension: Book
+      level: Book Level

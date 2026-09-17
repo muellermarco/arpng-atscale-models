@@ -1,0 +1,8 @@
+unique_name: m_FXTest_NonLinearMetric_Book
+object_type: metric
+label: M FXTest Non Linear Metric Book
+calculation_method: maximum
+column: book_measure
+dataset: FXTest_NonLinearMetric
+is_hidden: true
+unrelated_dimensions_handling: repeat
